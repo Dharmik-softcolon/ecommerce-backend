@@ -1,5 +1,5 @@
 // src/routes/contact.routes.ts
-import { Router } from 'express';
+import { Router, type Request, type Response, type NextFunction } from 'express';
 import { ContactMessage } from '../models';
 import { AppError } from '../middleware/error.middleware';
 import { z } from 'zod';
@@ -14,7 +14,7 @@ const contactSchema = z.object({
     message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validation = contactSchema.safeParse(req.body);
 

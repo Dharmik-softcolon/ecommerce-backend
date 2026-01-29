@@ -1,5 +1,5 @@
 // src/routes/upload.routes.ts
-import { Router } from 'express';
+import { Router, type Request, type Response, type NextFunction } from 'express';
 import { authenticate, authorize } from '../middleware/auth.middleware';
 import { uploadSingle, uploadMultiple } from '../middleware/upload.middleware';
 import { uploadToS3, getPresignedUploadUrl, deleteFromS3 } from '../services/upload.service';
@@ -10,7 +10,7 @@ const router = Router();
 router.use(authenticate);
 
 // Upload single image
-router.post('/image', uploadSingle, async (req, res, next) => {
+router.post('/image', uploadSingle, async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.file) {
             throw new AppError('No file uploaded', 400);
@@ -29,14 +29,16 @@ router.post('/image', uploadSingle, async (req, res, next) => {
 });
 
 // Upload multiple images
-router.post('/images', uploadMultiple, async (req, res, next) => {
+router.post('/images', uploadMultiple, async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
             throw new AppError('No files uploaded', 400);
         }
 
         const folder = (req.query.folder as string) || 'uploads';
-        const uploadPromises = req.files.map((file) => uploadToS3(file, folder));
+        const uploadPromises = req.files.map((file: Express.Multer.File) =>
+            uploadToS3(file, folder)
+        );
         const imageUrls = await Promise.all(uploadPromises);
 
         res.json({
@@ -49,7 +51,7 @@ router.post('/images', uploadMultiple, async (req, res, next) => {
 });
 
 // Get presigned upload URL (for direct client upload)
-router.post('/presigned-url', async (req, res, next) => {
+router.post('/presigned-url', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { fileName, fileType, folder } = req.body;
 
@@ -73,7 +75,7 @@ router.post('/presigned-url', async (req, res, next) => {
 });
 
 // Delete image (admin only)
-router.delete('/image', authorize('ADMIN'), async (req, res, next) => {
+router.delete('/image', authorize('ADMIN'), async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { url } = req.body;
 

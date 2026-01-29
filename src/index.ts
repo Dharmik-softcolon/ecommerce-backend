@@ -1,5 +1,5 @@
 // src/index.ts
-import express from 'express';
+import express, { type Request, type Response, type NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -64,7 +64,7 @@ app.use(compression());
 app.use(morgan('dev'));
 
 // Body parsing - but skip for Stripe webhook
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.originalUrl === '/api/payments/webhook') {
         next();
     } else {
@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
     res.status(200).json({
         success: true,
         status: 'ok',
@@ -84,7 +84,7 @@ app.get('/health', (req, res) => {
 });
 
 // API info endpoint
-app.get('/api', (req, res) => {
+app.get('/api', (req: Request, res: Response) => {
     res.json({
         success: true,
         message: 'LUXE E-commerce API',

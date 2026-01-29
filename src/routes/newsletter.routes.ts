@@ -1,12 +1,12 @@
 // src/routes/newsletter.routes.ts
-import { Router } from 'express';
+import { Router, type Request, type Response, type NextFunction } from 'express';
 import { Newsletter } from '../models';
 import { AppError } from '../middleware/error.middleware';
 
 const router = Router();
 
 // Subscribe to newsletter
-router.post('/subscribe', async (req, res, next) => {
+router.post('/subscribe', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email } = req.body;
 
@@ -44,7 +44,7 @@ router.post('/subscribe', async (req, res, next) => {
 });
 
 // Unsubscribe from newsletter
-router.post('/unsubscribe', async (req, res, next) => {
+router.post('/unsubscribe', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email } = req.body;
 
