@@ -143,6 +143,9 @@ const productSchema = new Schema<IProduct>(
         timestamps: true,
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
+        // We intentionally use paths named "isNew" and "collection" on this schema.
+        // Suppress Mongoose reserved key warnings for these fields.
+        suppressReservedKeysWarning: true,
     }
 );
 
@@ -205,7 +208,6 @@ productSchema.statics.updateAverageRating = async function (productId: string) {
 };
 
 // Indexes for better query performance
-productSchema.index({ slug: 1 });
 productSchema.index({ category: 1, isActive: 1 });
 productSchema.index({ collection: 1, isActive: 1 });
 productSchema.index({ price: 1 });

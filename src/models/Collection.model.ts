@@ -50,9 +50,6 @@ collectionSchema.pre('save', function (next) {
     next();
 });
 
-// Index for better query performance
-collectionSchema.index({ slug: 1 });
-
 const Collection: Model<ICollection> = mongoose.model<ICollection>('Collection', collectionSchema);
 
 export default Collection;

@@ -67,7 +67,6 @@ categorySchema.pre('save', function (next) {
 });
 
 // Index for better query performance
-categorySchema.index({ slug: 1 });
 categorySchema.index({ parent: 1 });
 
 const Category: Model<ICategory> = mongoose.model<ICategory>('Category', categorySchema);

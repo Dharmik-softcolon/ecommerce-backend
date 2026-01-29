@@ -105,6 +105,11 @@ app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📚 API Base URL: http://localhost:${PORT}/api`);
+
+    // Simple cron-like job: log every 5 minutes
+    setInterval(() => {
+        console.log('server is running softly');
+    }, 5 * 60 * 1000);
 });
 
 // Handle unhandled promise rejections

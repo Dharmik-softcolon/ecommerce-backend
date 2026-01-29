@@ -102,7 +102,6 @@ couponSchema.methods.calculateDiscount = function (orderValue: number): number {
 };
 
 // Index for better query performance
-couponSchema.index({ code: 1 });
 couponSchema.index({ isActive: 1 });
 
 const Coupon: Model<ICoupon> = mongoose.model<ICoupon>('Coupon', couponSchema);

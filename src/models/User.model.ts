@@ -107,7 +107,6 @@ userSchema.methods.comparePassword = async function (
 };
 
 // Index for better query performance
-userSchema.index({ email: 1 });
 userSchema.index({ createdAt: -1 });
 
 const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);
